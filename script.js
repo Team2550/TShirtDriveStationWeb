@@ -1,4 +1,8 @@
-const INTERVAL_LENGTH = 1000;
+// NOTES:
+// Figure out which axis is the Y axis. Then use the Y axis from each controller to implement tank drive. If I remember right, the values -1 to 1 should be mapped to the integers -256 and 255.
+// Also, figure out how to make HTTP requests from Javascript. It's probably pretty easy, given Javascript's intended purpose.
+
+const INTERVAL_LENGTH = 1000; // the length of time (in milliseconds) between controller updates. 1000 is good for debugging; 50 or 100 should be used for production.
 var gamepads = [];
 
 window.addEventListener("gamepadconnected", function(e) {
@@ -7,7 +11,7 @@ window.addEventListener("gamepadconnected", function(e) {
 		e.gamepad.buttons.length, e.gamepad.axes.length);
 	if(gamepads[0] == null) {
 		gamepads[0] = navigator.getGamepads()[e.gamepad.index];
-		console.log("Gamepad 1 added");
+		console.log("Gamepad 1 added (add one more to enable controls)");
 	}
 	else if(gamepads[1] == null) {
 		console.log("Gamepad 2 added");
@@ -15,7 +19,7 @@ window.addEventListener("gamepadconnected", function(e) {
 		setTimeout(update, INTERVAL_LENGTH);
 	}
 	else
-		console.log("Additional gamepad added. Why?");
+		console.log("Additional gamepad added. Why? You only need two. Ignoring...");
 
 });
 
