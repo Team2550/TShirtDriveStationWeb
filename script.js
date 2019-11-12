@@ -41,9 +41,12 @@ function update() {
 	}
 
 	// Process the data
-	var leftSide = 0;
-	var rightSide = 0;
+	var leftSide = 0; // find which axis
+	leftSide = round(leftSide * 255);
+	var rightSide = 0; // find which axis
+	rightSide = round(leftSide * 255);
 
+	// Prepare the URI
 	var uri = PI_ADDRESS + "?leftSide=" + leftSide + "&rightSide=" + rightSide;
 
 	// Send the data
