@@ -4,6 +4,7 @@
 
 const INTERVAL_LENGTH = 1000; // the length of time (in milliseconds) between controller updates. 1000 is good for debugging; 50 or 100 should be used for production.
 var gamepads = [];
+const PI_ADDRESS = "http://localhost/api" // The address to the PI. CHANGE THIS!!! Or, even better, make it a textbox on the webpage
 
 window.addEventListener("gamepadconnected", function(e) {
 	console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
@@ -38,6 +39,22 @@ function update() {
 		}
 
 	}
+
+	// Process the data
+	var leftSide = 0;
+	var rightSide = 0;
+
+	var uri = PI_ADDRESS + "?leftSide=" + leftSide + "&rightSide=" + rightSide;
+
+	// Send the data
+	var request = new XMLHttpRequest()
+	request.open("GET", uri, true);
+	request.onload = function() {
+		// We don't use the response. Hence this empty function
+		// I don't even know if I need to put this function here; maybe
+		// javascript would ignore it if it didn't exist?
+	}
+	request.send(); // DO IT
 
 	console.log("Ending update loop");
 	setTimeout(update, INTERVAL_LENGTH);
