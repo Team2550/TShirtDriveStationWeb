@@ -4,7 +4,7 @@
 
 const INTERVAL_LENGTH = 1000; // the length of time (in milliseconds) between controller updates. 1000 is good for debugging; 50 or 100 should be used for production.
 var gamepads = [];
-const PI_ADDRESS = "http://10.126.1.6:5000" // The address to the PI. CHANGE THIS!!! Or, even better, make it a textbox on the webpage
+const PI_ADDRESS = "http://localhost:5000" // The address to the PI. CHANGE THIS!!! Or, even better, make it a textbox on the webpage
 
 window.addEventListener("gamepadconnected", function(e) {
 	console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
@@ -44,7 +44,7 @@ function update() {
 	var leftSide = -1 * (gamepads[0].axes[1]);
 	leftSide = Math.round(leftSide * 127);
 	var rightSide = -1 * (gamepads[1].axes[1]);
-	rightSide = Math.round(leftSide * 127);
+	rightSide = Math.round(rightSide * 127);
 
 	// Prepare the URI
 	var uri = PI_ADDRESS + "/tankdrive?left=" + leftSide + "&right=" + rightSide;
