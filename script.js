@@ -1,10 +1,10 @@
 // NOTES:
-// Figure out which axis is the Y axis. Then use the Y axis from each controller to implement tank drive. If I remember right, the values -1 to 1 should be mapped to the integers -256 and 255.
+// Figure out which axis is the Y axis. Then use the Y axis from each controller to implement tank drive. If I remember right, the values -1 to 1 should be mapped to the integers -128 and 127.
 // Also, figure out how to make HTTP requests from Javascript. It's probably pretty easy, given Javascript's intended purpose.
 
 const INTERVAL_LENGTH = 1000; // the length of time (in milliseconds) between controller updates. 1000 is good for debugging; 50 or 100 should be used for production.
 var gamepads = [];
-const PI_ADDRESS = "http://localhost/api" // The address to the PI. CHANGE THIS!!! Or, even better, make it a textbox on the webpage
+const PI_ADDRESS = "http://10.126.1.6:5000" // The address to the PI. CHANGE THIS!!! Or, even better, make it a textbox on the webpage
 
 window.addEventListener("gamepadconnected", function(e) {
 	console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
@@ -41,13 +41,13 @@ function update() {
 	}
 
 	// Process the data
-	var leftSide = 0; // find which axis
-	leftSide = round(leftSide * 255);
-	var rightSide = 0; // find which axis
-	rightSide = round(leftSide * 255);
+	var leftSide = -1 * (gamepads[0].axes[1]);
+	leftSide = Math.round(leftSide * 127);
+	var rightSide = -1 * (gamepads[1].axes[1]);
+	rightSide = Math.round(leftSide * 127);
 
 	// Prepare the URI
-	var uri = PI_ADDRESS + "?leftSide=" + leftSide + "&rightSide=" + rightSide;
+	var uri = PI_ADDRESS + "/tankdrive?left=" + leftSide + "&right=" + rightSide;
 
 	// Send the data
 	var request = new XMLHttpRequest()
