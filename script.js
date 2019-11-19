@@ -1,10 +1,13 @@
-// NOTES:
-// Figure out which axis is the Y axis. Then use the Y axis from each controller to implement tank drive. If I remember right, the values -1 to 1 should be mapped to the integers -128 and 127.
-// Also, figure out how to make HTTP requests from Javascript. It's probably pretty easy, given Javascript's intended purpose.
+// Created and maintained by Lance Booth and Charlie Welsh
 
-const INTERVAL_LENGTH = 1000; // the length of time (in milliseconds) between controller updates. 1000 is good for debugging; 50 or 100 should be used for production.
-var gamepads = [];
-const PI_ADDRESS = "http://localhost:5000" // The address to the PI. CHANGE THIS!!! Or, even better, make it a textbox on the webpage
+// the length of time (in milliseconds) between controller updates. 1000 is good for debugging; 50 or 100 should be used for production.
+const INTERVAL_LENGTH = 1000;
+
+// The base address for sending the controller data. For production, use "/", which will result in requests sent to the same place that this script was retrieved from. For debugging, enter the base URL for where you want the data to go.
+const BASE_ADDRESS = "http://localhost:5000/";
+//const BASE_ADDRESS = "/";
+
+var gamepads = []; // Holds the gamepad objects, clearly
 
 window.addEventListener("gamepadconnected", function(e) {
 	console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
@@ -47,7 +50,7 @@ function update() {
 	rightSide = Math.round(rightSide * 127);
 
 	// Prepare the URI
-	var uri = PI_ADDRESS + "/tankdrive?left=" + leftSide + "&right=" + rightSide;
+	var uri = BASE_ADDRESS + "tankdrive?left=" + leftSide + "&right=" + rightSide;
 
 	// Send the data
 	var request = new XMLHttpRequest()
@@ -57,7 +60,7 @@ function update() {
 		// I don't even know if I need to put this function here; maybe
 		// javascript would ignore it if it didn't exist?
 	}
-	request.send(); // DO IT
+	request.send(); // JUST DO IT
 
 	console.log("Ending update loop");
 	setTimeout(update, INTERVAL_LENGTH);
